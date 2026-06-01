@@ -1,3 +1,14 @@
+"""
+Splunk Threat Finder v2.0
+
+Author: Suga-thamil
+
+Detects:
+- Brute Force Attacks
+- Password Spraying
+- PowerShell Execution
+- Known Malicious IP Activity
+"""
 import csv
 import sys
 from collections import defaultdict
