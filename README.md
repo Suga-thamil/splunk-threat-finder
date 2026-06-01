@@ -8,6 +8,10 @@ The project simulates Security Operations Center (SOC) workflows by identifying 
 
 ---
 
+## Key Achievement
+
+Developed a Python-based threat detection framework capable of identifying brute force attacks, password spraying, PowerShell execution, and malicious IP activity while generating SOC-style incident reports mapped to MITRE ATT&CK techniques.
+
 ## Features
 
 ### Threat Detection
@@ -198,7 +202,23 @@ The process sequence resembles common ransomware behavior involving payload down
 source="ransomware_logs.csv"
 | stats values(process) as processes by src_ip
 ```
+## Detection Logic
 
+### Brute Force Detection
+- Detects 5+ failed logins followed by a successful login.
+- Maps to MITRE ATT&CK T1110.
+
+### Password Spraying Detection
+- Detects one IP attempting authentication against multiple users.
+- Maps to MITRE ATT&CK T1110.003.
+
+### PowerShell Execution Detection
+- Detects suspicious PowerShell activity.
+- Maps to MITRE ATT&CK T1059.001.
+
+### Malicious IP Detection
+- Correlates source IPs against known malicious indicators.
+  
 **Finding**
 
 Host `192.168.1.50` executed multiple suspicious processes associated with ransomware activity and was identified as the affected system.
@@ -210,11 +230,56 @@ Host `192.168.1.50` executed multiple suspicious processes associated with ranso
 * Automated Splunk Alert Generation
 * Threat Intelligence API Integration
 * Advanced Behavioral Analytics
-
+* Sigma Rule Support
+* Elastic SIEM Integration
 ---
+
+## Architecture
+
+```text
+Log Files (CSV)
+        ↓
+Python Parser
+        ↓
+Threat Detection Engine
+        ↓
+MITRE ATT&CK Mapping
+        ↓
+IOC Extraction
+        ↓
+Risk Scoring
+        ↓
+Report Generation
+        ↓
+Splunk Validation
+```
+
+## Installation
+
+git clone https://github.com/Suga-thamil/splunk-threat-finder.git
+
+cd splunk-threat-finder
+
+python analyzer.py
+
+## Screenshots
+
+### Executive Summary
+
+![Executive Summary](screenshots/executive-summary.png)
+
+### Analyst Verdict
+
+![Analyst Verdict](screenshots/analyst-verdict.png)
+
+### IOC Summary
+
+![IOC Summary](screenshots/ioc-summary.png)
 
 ## Author
 
 Cybersecurity Portfolio Project
 
 Built to demonstrate SOC operations, threat hunting, incident investigation, Splunk analysis, and MITRE ATT&CK mapping.
+
+
