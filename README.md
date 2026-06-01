@@ -45,7 +45,7 @@ The project simulates Security Operations Center (SOC) workflows by identifying 
 | T1110        | Brute Force            |
 | T1110.003    | Password Spraying      |
 | T1059.001    | PowerShell             |
-| T1583        | Acquire Infrastructure |
+| T1047        | Windows Management Instrumentation (WMI)
 
 ---
 
@@ -94,6 +94,18 @@ The generated report includes:
 * MITRE ATT&CK Framework
 
 ---
+## Skills Demonstrated
+
+* Threat Hunting
+* Security Monitoring
+* Log Analysis
+* Incident Investigation
+* IOC Identification
+* MITRE ATT&CK Mapping
+* Splunk SPL Development
+* Security Reporting
+* Ransomware Analysis
+* SOC Workflow Simulation
 
 ## Validation in Splunk
 
@@ -106,6 +118,90 @@ The detections were validated using Splunk Enterprise by:
 * Investigating ransomware-style activity
 
 ---
+## Threat Hunting Scenarios
+
+### Scenario 1: Password Spraying Detection
+
+**Objective:** Identify a single source IP attempting authentication against multiple user accounts.
+
+**SPL Query**
+
+```spl
+source="sample_logs.csv" action="failure"
+| stats dc(user) as unique_users values(user) as users by src_ip
+| where unique_users >= 3
+```
+
+**Finding**
+
+Source IP `192.168.1.99` generated failed login attempts against:
+
+* alice
+* bob
+* charlie
+
+This behavior is consistent with a password spraying attack.
+
+---
+
+### Scenario 2: PowerShell Execution Detection
+
+**Objective:** Detect PowerShell activity that may indicate malicious execution.
+
+**SPL Query**
+
+```spl
+source="sample_logs.csv" process="powershell.exe"
+```
+
+**Finding**
+
+User `john` executed `powershell.exe` from source IP `192.168.1.20`.
+
+PowerShell is commonly abused by attackers for post-exploitation activities.
+
+---
+
+### Scenario 3: Ransomware Activity Investigation
+
+**Objective:** Reconstruct a ransomware execution chain.
+
+**SPL Query**
+
+```spl
+source="ransomware_logs.csv"
+| table timestamp process
+```
+
+**Observed Process Sequence**
+
+1. powershell.exe
+2. certutil.exe
+3. vssadmin.exe
+4. wmic.exe
+5. rclone.exe
+6. encrypted_files
+
+**Finding**
+
+The process sequence resembles common ransomware behavior involving payload download, shadow copy deletion, system discovery, data staging, and file encryption.
+
+---
+
+### Scenario 4: IOC Correlation
+
+**Objective:** Correlate suspicious processes to affected hosts.
+
+**SPL Query**
+
+```spl
+source="ransomware_logs.csv"
+| stats values(process) as processes by src_ip
+```
+
+**Finding**
+
+Host `192.168.1.50` executed multiple suspicious processes associated with ransomware activity and was identified as the affected system.
 
 ## Future Improvements
 
@@ -119,7 +215,6 @@ The detections were validated using Splunk Enterprise by:
 
 ## Author
 
-Cybersecurity Student Project
+Cybersecurity Portfolio Project
 
-Built to learn SOC operations, threat detection, incident response, and Splunk investigation workflows.
-
+Built to demonstrate SOC operations, threat hunting, incident investigation, Splunk analysis, and MITRE ATT&CK mapping.
