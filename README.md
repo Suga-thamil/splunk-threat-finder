@@ -276,6 +276,10 @@ python analyzer.py
 
 ![IOC Summary](screenshots/ioc-summary.png)
 
+### Threat Statistics
+
+![Threat Statistics](screenshots/threat-statistics.png)
+
 ## Author
 
 Cybersecurity Portfolio Project
