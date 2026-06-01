@@ -1,0 +1,12 @@
+_time,user,src_ip,action,event_type,process
+2026-01-01 10:00:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:01:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:02:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:03:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:04:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:05:00,admin,192.168.1.10,failure,login,
+2026-01-01 10:06:00,admin,192.168.1.10,success,login,
+2026-01-01 10:10:00,john,192.168.1.20,success,process,powershell.exe
+2026-01-01 10:20:00,alice,192.168.1.99,failure,login,
+2026-01-01 10:21:00,bob,192.168.1.99,failure,login,
+2026-01-01 10:22:00,charlie,192.168.1.99,failure,login,

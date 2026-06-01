@@ -1,0 +1,7 @@
+timestamp,user,src_ip,action,event_type,process
+2026-02-01 09:00:00,john,192.168.1.50,success,process,powershell.exe
+2026-02-01 09:01:00,john,192.168.1.50,success,process,certutil.exe
+2026-02-01 09:02:00,john,192.168.1.50,success,process,vssadmin.exe
+2026-02-01 09:03:00,john,192.168.1.50,success,process,wmic.exe
+2026-02-01 09:04:00,john,192.168.1.50,success,process,rclone.exe
+2026-02-01 09:05:00,john,192.168.1.50,success,file,encrypted_files

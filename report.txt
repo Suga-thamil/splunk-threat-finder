@@ -1,0 +1,216 @@
+SPLUNK THREAT ANALYSIS REPORT
+========================================
+
+EXECUTIVE SUMMARY
+----------------------------------------
+P1 Alerts: 1
+P2 Alerts: 1
+P3 Alerts: 0
+P4 Alerts: 1
+Top Threat: Known Malicious IP
+Most Suspicious IP: 192.168.1.99
+
+THREAT STATISTICS
+----------------------------------------
+Brute Force Events: 1
+PowerShell Events: 1
+Password Spraying Events: 1
+Malicious IP Events: 1
+
+SEVERITY DISTRIBUTION
+----------------------------------------
+Critical Alerts: 0
+High Alerts: 2
+Medium Alerts: 2
+Low Alerts: 0
+
+PRIORITY DISTRIBUTION
+----------------------------------------
+P1 Alerts: 1
+P2 Alerts: 1
+P3 Alerts: 0
+P4 Alerts: 1
+
+INCIDENT SUMMARY
+----------------------------------------
+Total Findings: 4
+Critical Findings: 0
+High Findings: 2
+Medium Findings: 2
+Overall Risk Score: 85/100
+Scoring Method: Detection-based threat scoring
+Overall Incident Severity: CRITICAL
+Analyst Recommendation: Immediate investigation required.
+
+ANALYST VERDICT
+----------------------------------------
+Overall Assessment: Suspicious Activity Confirmed
+Priority: HIGH
+Recommended Action: Investigate as soon as possible.
+Detected Threat Types:
+- Brute Force Followed by Successful Login
+- PowerShell Execution
+- Possible Password Spraying
+- Known Malicious IP
+
+IOC SUMMARY
+----------------------------------------
+Users:
+- admin
+- john
+
+Source IPs:
+- 192.168.1.10
+- 192.168.1.20
+- 192.168.1.99
+
+Processes:
+- powershell.exe
+
+MITRE Techniques:
+- T1059.001
+- T1110
+- T1110.003
+- T1583
+
+TIMELINE
+----------------------------------------
+2026-01-01 10:00:00 | admin | login failure
+2026-01-01 10:01:00 | admin | login failure
+2026-01-01 10:02:00 | admin | login failure
+2026-01-01 10:03:00 | admin | login failure
+2026-01-01 10:04:00 | admin | login failure
+2026-01-01 10:05:00 | admin | login failure
+2026-01-01 10:06:00 | admin | login success
+2026-01-01 10:10:00 | john | powershell.exe
+2026-01-01 10:20:00 | alice | login failure
+2026-01-01 10:21:00 | bob | login failure
+2026-01-01 10:22:00 | charlie | login failure
+
+
+Finding #1
+----------------------------------------
+
+
+=== THREAT STORY ===
+User 'admin' experienced 6 failed login attempts from 192.168.1.10.
+A successful login occurred afterward from the same IP address.
+
+This pattern is commonly associated with brute-force attacks.
+
+Risk Level: MEDIUM
+Confidence: 70%
+Risk: Potential account compromise.
+
+Recommended Investigation:
+1. Review activity after login.
+2. Verify MFA status.
+3. Determine whether the IP is trusted.
+
+=== THREAT FINDING ===
+Detection Type: Brute Force Followed by Successful Login
+Severity: MEDIUM
+Confidence: 70%
+Priority:  P3
+MITRE ATT&CK: T1110
+Technique: Brute Force
+User: admin
+Source IP: 192.168.1.10
+Reason: Multiple failed logins followed by successful login.
+Recommended Next Step: Review user activity after the successful login.
+Suggested SPL Query:
+index=* user="admin" src_ip="192.168.1.10"
+
+
+INVESTIGATION PLAYBOOK
+----------------------------------------
+Step 1: Review all activity from the source IP.
+Step 2: Review processes executed by the user.
+Step 3: Verify MFA status.
+Step 4: Check for privilege escalation.
+Step 5: Determine whether the login was expected.
+
+
+Finding #2
+----------------------------------------
+
+=== THREAT FINDING ===
+Detection Type: PowerShell Execution
+Severity: MEDIUM
+Priority: P4
+MITRE ATT&CK: T1059.001
+Technique: PowerShell
+User: john
+Source IP: 192.168.1.20
+Process: powershell.exe
+Reason: PowerShell is frequently abused by attackers.
+Recommended Next Step: Review command-line arguments and parent process.
+
+
+INVESTIGATION PLAYBOOK
+----------------------------------------
+Step 1: Review command-line arguments.
+Step 2: Identify parent process.
+Step 3: Check network connections.
+Step 4: Determine whether the script is signed.
+Step 5: Review recent PowerShell history.
+
+
+Finding #3
+----------------------------------------
+
+=== THREAT FINDING ===
+Detection Type: Possible Password Spraying
+Severity: HIGH
+Confidence: 85%
+Priority: P2
+MITRE ATT&CK: T1110.003
+Technique: Password Spraying
+Source IP: 192.168.1.99
+Targeted Users: alice, charlie, bob
+Reason: One source IP attempted failed logins against multiple user accounts.
+Recommended Next Step: Check whether this IP is external, blocked, or associated with known attack activity.
+Suggested SPL Query:
+index=* src_ip="192.168.1.99" action=failure
+
+
+INVESTIGATION PLAYBOOK
+----------------------------------------
+Step 1: Check if the source IP is external.
+Step 2: Review firewall logs.
+Step 3: Identify all affected users.
+Step 4: Check for successful logins afterward.
+Step 5: Force password resets if necessary.
+
+
+Finding #4
+----------------------------------------
+
+=== THREAT FINDING ===
+Detection Type: Known Malicious IP
+Severity: HIGH
+Confidence: 95%
+Priority: P1
+MITRE ATT&CK: T1583
+Technique: Acquire Infrastructure
+
+Source IP: 192.168.1.99
+
+Reason:
+IP found in threat intelligence database.
+
+Recommended Next Step:
+Block and investigate immediately.
+
+Suggested SPL Query:
+index=* src_ip="192.168.1.99"
+
+
+INVESTIGATION PLAYBOOK
+----------------------------------------
+Step 1: Immediately investigate the IP.
+Step 2: Review all events involving the IP.
+Step 3: Check firewall and proxy logs.
+Step 4: Determine affected systems.
+Step 5: Block the IP if confirmed malicious.
+
